@@ -1,0 +1,114 @@
+<?php
+// $Id
+
+/**
+ * @file
+ * Installation
+ *
+ * @author Davy Van Den Bremt
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function emf_install() {
+  drupal_install_schema('emf');
+
+  $link = array('!link' => l(t('Administer > Site configuration > E-mail Marketing Framework'), 'admin/settings/emf'));
+  drupal_set_message(t("E-mail Marketing Framework module settings are available under !link", $link));
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function emf_uninstall() {
+  drupal_uninstall_schema('emf');
+
+  db_query("DELETE FROM {variable} WHERE name LIKE 'emf_%'");
+  cache_clear_all('variables', 'cache');
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function emf_schema() {
+
+  // lists
+  $schema['emf_list'] = array(
+    'fields' => array(
+      'lid'                => array('type' => 'varchar', 'length' => '64', 'not null' => TRUE),
+      'name_api'           => array('type' => 'varchar', 'length' => '255', 'not null' => TRUE, 'default' => ''),
+      'status_api'         => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
+      'status'             => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
+      'name'               => array('type' => 'varchar', 'length' => '255', 'not null' => TRUE, 'default' => ''),
+      'name_action'        => array('type' => 'varchar', 'length' => '255', 'not null' => TRUE, 'default' => ''),
+      'name_action_long'   => array('type' => 'varchar', 'length' => '255', 'not null' => TRUE, 'default' => ''),
+      'description'        => array('type' => 'text', 'not null' => TRUE),
+      'field_mapping'      => array('type' => 'text', 'not null' => TRUE),
+    ),
+    'primary key' => array('lid'),
+  );
+
+  // requests
+  $schema['emf_request'] = array(
+    'fields' => array(
+      'mail'      => array('type' => 'varchar', 'length' => '128', 'not null' => TRUE),
+      'lid'       => array('type' => 'varchar', 'length' => '64', 'not null' => TRUE),
+      'type'      => array('type' => 'varchar', 'length' => '32', 'not null' => TRUE),
+      'fields'    => array('type' => 'text', 'not null' => TRUE),
+      'timestamp' => array('type' => 'int', 'not null' => TRUE),
+    ),
+    'primary key' => array('mail', 'lid'),
+    'indexes' => array(
+      'timestamp' => array('timestamp'),
+      'type' => array('type'),
+    ),
+  );
+
+  // subscriptions
+  $schema['emf_subscription'] = array(
+    'fields' => array(
+      'mail'   => array('type' => 'varchar', 'length' => '128', 'not null' => TRUE),
+      'lid'    => array('type' => 'varchar', 'length' => '64', 'not null' => TRUE),
+    ),
+    'primary key' => array('mail', 'lid'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implementation of hook_requirements().
+ */
+function emf_requirements($phase) {
+  $requirements = array();
+
+  $t = get_t();
+
+  if ($phase == 'runtime') {
+
+    $plugins = emfget_plugins();
+
+    // Raise warning if no plugin modules have been enabled.
+    if (empty($plugins)) {
+      $requirements['emf_no_plugin'] = array(
+        'title' => $t('No E-mail Marketing Framework plugin installed'),
+        'description' => $t('You have not installed a E-mail Marketing Framework plugin yet. E-mail Marketing Framework will not work correctly.'),
+        'severity' => REQUIREMENT_ERROR,
+        'value' => $t('Not installed'),
+      );
+    }
+
+    // Raise warning if multiple plugin modules have been enabled.
+    if (count($plugins) > 1) {
+      $requirements['emf_multiple_plugins'] = array(
+        'title' => $t('Multiple E-mail Marketing Framework plugins installed'),
+        'description' => $t('You have installed multiple E-mail Marketing Framework plugin. E-mail Marketing Framework only supports 1 active plugin at a time (at this moment).'),
+        'severity' => REQUIREMENT_ERROR,
+        'value' => $t('Not installed'),
+      );
+    }
+  }
+
+  return $requirements;
+}
