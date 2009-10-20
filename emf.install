@@ -112,3 +112,22 @@ function emf_requirements($phase) {
 
   return $requirements;
 }
+
+function emf_update_6001() {
+  $ret = array();
+  
+  $result = db_query("SELECT lid, field_mapping FROM {emf_list}");
+  while ($row = db_fetch_object($result)) {
+    $lid = $row->lid;
+    $field_mapping = unserialize($row->field_mapping);
+    foreach ($field_mapping as $field => $mapping) {
+      if (isset($field_mapping[$field]->common_block_show)) {
+        $field_mapping[$field]->common_form_show = $field_mapping[$field]->common_block_show;
+        unset($field_mapping[$field]->common_block_show);
+      }
+    }
+    db_query("UPDATE {emf_list} SET field_mapping = '%s' WHERE lid = '%s'", serialize($field_mapping), $lid);
+  }
+  
+  return $ret;
+}

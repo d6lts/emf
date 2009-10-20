@@ -136,6 +136,23 @@ function emf_menu() {
     'file' => 'emf.reports.inc',
   );
 
+  // pages
+  $items['emf/list/%emf_list'] = array(
+    'title callback' => 'emf_page_title',
+    'title arguments' => array(1),
+    'page callback' => 'emf_page',
+    'page arguments' => array(1),
+    'access callback' => 'emf_page_access',
+    'access arguments' => array(1),
+    'file' => 'emf.page.inc',
+  );
+  $items['emf/common'] = array(
+    'title' => 'Newsletters',
+    'page callback' => 'emf_page',
+    'page arguments' => NULL,
+    'access callback' => TRUE,
+    'file' => 'emf.page.inc',
+  );
 
   return $items;
 }
@@ -157,6 +174,20 @@ function emf_theme() {
  */
 function emf_list_load($lid = 0) {
   return emf_db_get_list($lid);
+}
+
+/**
+ * Access callback for emf_page.
+ */
+function emf_page_access($list) {
+  return user_access('subscribe to '. $list->name_api);
+}
+
+/**
+ * Title callback for emf_page.
+ */
+function emf_page_title($list) {
+  return $list->name_clean;
 }
 
 /**
@@ -199,7 +230,7 @@ function emf_block($op = 'list', $delta = 0, $edit = array()) {
 
     // block viewing
     case 'view':
-      module_load_include('inc', 'emf', 'emf.block');
+      module_load_include('inc', 'emf', 'emf.form');
 
       // by default block subject equals block info
       $block['subject'] = $blocks[$delta]['info'];
@@ -229,11 +260,11 @@ function emf_block($op = 'list', $delta = 0, $edit = array()) {
 
       if ($show_block) {
         // fetch form
-        $form = emf_block_subscription_list_form(array(), $lid);
+        $form = emf_subscription_list_form(array(), $lid);
 
         // check if form is empty
         if (!empty($form)) {
-          $block['content'] = drupal_get_form('emf_block_subscription_list_form', $lid);
+          $block['content'] = drupal_get_form('emf_subscription_list_form', $lid);
         }
       }
 

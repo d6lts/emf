@@ -8,7 +8,7 @@
  * @author Davy Van Den Bremt
  */
 
-function emf_block_subscription_list_form($form, $lid = NULL, $hide_subscribed = TRUE) {
+function emf_subscription_list_form($form, $lid = NULL, $hide_subscribed = TRUE) {
   drupal_add_css(drupal_get_path('module', 'emf') .'/emf-style.css');
 
   $form = array();
@@ -69,7 +69,7 @@ function emf_block_subscription_list_form($form, $lid = NULL, $hide_subscribed =
 
         // don't show field in some occasions
         if (!$field->show_anonymous) continue;
-        if ($lid == NULL && !$field->common_block_show) continue;
+        if ($lid == NULL && !$field->common_form_show) continue;
         if (in_array($field->key, array('mail'))) continue;
 
         // display field
@@ -126,7 +126,7 @@ function emf_block_subscription_list_form($form, $lid = NULL, $hide_subscribed =
   return $form;
 }
 
-function emf_block_subscription_list_form_validate($form, &$form_state) {
+function emf_subscription_list_form_validate($form, &$form_state) {
   if (user_is_anonymous()) {
     $mail = $form_state['values']['fields']['mail'];
     if (!valid_email_address($mail)) {
@@ -135,7 +135,7 @@ function emf_block_subscription_list_form_validate($form, &$form_state) {
   }
 }
 
-function emf_block_subscription_list_form_submit($form, &$form_state) {
+function emf_subscription_list_form_submit($form, &$form_state) {
   $lists = array();
 
   if (is_array($form_state['values']['lists'])) {

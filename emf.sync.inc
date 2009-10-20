@@ -107,7 +107,7 @@ function emf_sync_fields() {
     $mapping['mail']->name = 'Mail';
     $mapping['mail']->type = 'text';
     $mapping['mail']->show_anonymous = TRUE;
-    $mapping['mail']->common_block_show = TRUE;
+    $mapping['mail']->common_form_show = TRUE;
 
     if ($fields) {
 

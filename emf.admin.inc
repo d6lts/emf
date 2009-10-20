@@ -23,6 +23,7 @@ function emf_admin_lists() {
         $list->name_api,
         $list->lid,
         l(t('Manage'), 'admin/build/emf/'. $list->lid .'/manage'),
+        l(t('View page'), 'emf/'. $list->lid),
         $list->status_api ? '' : l(t('Delete'), 'admin/build/emf/'. $list->lid .'/delete'),
       ),
       'class' => $list->status_api ? '' : 'list-error',
@@ -30,7 +31,7 @@ function emf_admin_lists() {
   }
 
   if (empty($rows)) {
-    $rows[] = array(array('data' => t('No lists synchronised yet or no lists available in your account. Run cron to synchronise your lists.'), 'colspan' => '5', 'class' => 'message'));
+    $rows[] = array(array('data' => t('No lists synchronised yet or no lists available in your account. Run cron to synchronise your lists.'), 'colspan' => '6', 'class' => 'message'));
   }
 
   return theme('table', $header, $rows, array('class' => 'emf-lists-table'));
@@ -78,6 +79,10 @@ function emf_admin_list_info_form(&$form_values, $list = NULL) {
     '#description' => $status_api_description,
     '#disabled' => TRUE,
     '#default_value' => $list->status_api,
+  );
+  $form['info_api']['value'] = array(
+    '#type' => 'markup',
+    '#value' => l('View subscription page', 'emf/'. $list->lid),
   );
 
   // status
@@ -245,13 +250,13 @@ function emf_admin_field_mapping_form(&$form_values, $list = NULL) {
       $form[$field->key]['anonymous_field']['#disabled'] = TRUE;
     }
 
-    $form[$field->key]['common_block_show'] = array(
+    $form[$field->key]['common_form_show'] = array(
       '#type' => 'checkbox',
-      '#default_value' => $field_mapping[$field->key]->common_block_show,
+      '#default_value' => $field_mapping[$field->key]->common_form_show,
     );
 
     if (in_array($field->key, array('mail'))) {
-      $form[$field->key]['common_block_show']['#disabled'] = TRUE;
+      $form[$field->key]['common_form_show']['#disabled'] = TRUE;
     }
   }
 
@@ -284,7 +289,7 @@ function theme_emf_admin_field_mapping_form($form = array()) {
   drupal_add_js(drupal_get_path('module', 'emf') .'/scripts.js');
 
   $output = '';
-  $header = array(t('List field'), t('Mapping source'), t('Source value'), t('Ask anonymous'), t('Show in common block'), t('Weight'));
+  $header = array(t('List field'), t('Mapping source'), t('Source value'), t('Ask anonymous'), t('Show in common form'), t('Weight'));
 
   $rows = array();
 
@@ -297,7 +302,7 @@ function theme_emf_admin_field_mapping_form($form = array()) {
           drupal_render($element['account_field_type']),
           drupal_render($element['account_field_profile']) . drupal_render($element['account_field']) . drupal_render($element['account_field_token']),
           drupal_render($element['anonymous_field']),
-          drupal_render($element['common_block_show']),
+          drupal_render($element['common_form_show']),
           drupal_render($element['weight']),
         ),
         'class' => 'draggable',
@@ -333,7 +338,7 @@ function emf_admin_field_mapping_form_submit($form, &$form_state) {
       unset($mapping[$key]->mapping_type);
       unset($mapping[$key]->mapping_value);
       unset($mapping[$key]->show_anonymous);
-      unset($mapping[$key]->common_block_show);
+      unset($mapping[$key]->common_form_show);
       if ($field['account_field_type'] == 'profile' && $field['account_field_profile'] != -1) {
         $mapping[$key]->mapping_value = $field['account_field_profile'];
       }
@@ -349,7 +354,7 @@ function emf_admin_field_mapping_form_submit($form, &$form_state) {
       }
         
       $mapping[$key]->show_anonymous = $field['anonymous_field'];
-      $mapping[$key]->common_block_show = $field['common_block_show'];
+      $mapping[$key]->common_form_show = $field['common_form_show'];
 
       $mapping[$key]->weight = $field['weight'];
     }
