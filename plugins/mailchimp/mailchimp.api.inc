@@ -29,7 +29,7 @@ function mailchimp_api_subscribe($email, $fields, $lid) {
   }
 
   // do api call
-  $result = _mailchimp_api_call('listSubscribe', array($lid, $email, $fields, 'html', FALSE));
+  $result = _mailchimp_api_call('listSubscribe', array($lid, $email, $fields, 'html', FALSE, TRUE));
   if (!$result) return FALSE;
 
   return TRUE;
