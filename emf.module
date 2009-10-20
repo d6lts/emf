@@ -137,7 +137,7 @@ function emf_menu() {
   );
 
   // pages
-  $items['emf/list/%emf_list'] = array(
+  $items['emf/%emf_list'] = array(
     'title callback' => 'emf_page_title',
     'title arguments' => array(1),
     'page callback' => 'emf_page',
