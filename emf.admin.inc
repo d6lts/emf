@@ -346,9 +346,10 @@ function emf_admin_field_mapping_form_submit($form, &$form_state) {
 
       if ($mapping[$key]->mapping_value) {
         $mapping[$key]->mapping_type = $field['account_field_type'];
-        $mapping[$key]->show_anonymous = $field['anonymous_field'];
-        $mapping[$key]->common_block_show = $field['common_block_show'];
       }
+        
+      $mapping[$key]->show_anonymous = $field['anonymous_field'];
+      $mapping[$key]->common_block_show = $field['common_block_show'];
 
       $mapping[$key]->weight = $field['weight'];
     }
