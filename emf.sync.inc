@@ -49,6 +49,7 @@ function emf_sync_lists() {
   if ($api_lists !== FALSE && $db_lists !== FALSE) {
     $added = array_diff_key($api_lists, $db_lists);
     $missing = array_diff_key($db_lists, $api_lists);
+    $other = array_intersect_key($api_lists, $db_lists);
 
     foreach ($added as $list) {
       emf_db_save_list($list->lid, $list->name_api, TRUE, $name, $status, $name_action, $name_action_long, '');
@@ -56,6 +57,14 @@ function emf_sync_lists() {
 
     foreach ($missing as $lid => $list) {
       emf_db_save_list($list->lid, $list->name_api, FALSE, $list->name, FALSE, $list->name_action, $list->name_action_long, $list->description);
+    }
+    
+    foreach ($other as $lid => $list) {
+      if ($api_lists[$lid]->name_api != $db_lists[$lid]->name_api) {
+        $list_api = $api_lists[$lid];
+        $list_db = $db_lists[$lid];
+        emf_db_save_list($list_db->lid, $list_api->name_api, $list_db->status_api, $list_db->name, $list_db->status, $list_db->name_action, $list_db->name_action_long, $list_db->description);
+      }
     }
   }
 
