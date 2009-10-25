@@ -253,7 +253,7 @@ function emf_block($op = 'list', $delta = 0, $edit = array()) {
 
         $block['subject'] = $list->name_clean;
 
-        if ($list->status == TRUE && user_access('subscribe to '. $list->name_api)) {
+        if ($list->status && $list->status_api && user_access('subscribe to '. $list->name_api)) {
           $show_block = TRUE;
         }
       }
