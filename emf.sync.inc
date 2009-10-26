@@ -8,8 +8,6 @@
  * @author Davy Van Den Bremt
  */
 
-@require_once(drupal_get_path('module', 'campaign_monitor') .'/campaign_monitor.api.inc');
-
 /**
  * Synchronise structure, requests and subscriptions (if allowed).
  */
@@ -192,7 +190,7 @@ function emf_sync_push_requests() {
  * Synchronise all subscriptions
  */
 function emf_sync_subscriptions() {
-  $last_sync = emfplugin_invoke('unix_to_cm_time', array(variable_get('emf_last_sync_subscriptions', 0)));
+  $last_sync = emfplugin_invoke('unix_to_service_time', array(variable_get('emf_last_sync_subscriptions', 0)));
 
   $lists = emf_db_get_lists(TRUE);
   foreach ($lists as $lid => $list) {

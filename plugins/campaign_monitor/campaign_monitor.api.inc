@@ -329,7 +329,7 @@ function _campaign_monitor_api_get_scalar_array_call($method, $params, $type, $f
  * @retun
  *   String; The Date in Campaign Monitor format.
  */
-function campaign_monitor_api_unix_to_cm_time($timestamp = 0) {
+function campaign_monitor_api_unix_to_service_time($timestamp = 0) {
   if ($timestamp) {
     return date('Y-m-d H:i:s', $timestamp);
   }

@@ -236,14 +236,14 @@ function _mailchimp_api_get_scalar_array_call($method, $params, $field) {
 }
 
 /**
- * Convert a UNIX timestamp to a date Campaign Monitor wants to receive.
+ * Convert a UNIX timestamp to a date MailChimp wants to receive.
  *
  * @param $timestamp
  *   Integer; The UNIX timestamp to convert.
  * @retun
- *   String; The Date in Campaign Monitor format.
+ *   String; The Date in MailChimp format.
  */
-function mailchimp_api_unix_to_cm_time($timestamp = 0) {
+function mailchimp_api_unix_to_service_time($timestamp = 0) {
   if ($timestamp) {
     return date('Y-m-d H:i:s', $timestamp);
   }
