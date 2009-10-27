@@ -108,6 +108,17 @@ function emf_requirements($phase) {
         'value' => $t('Not installed'),
       );
     }
+    
+    // Raise warning if some lists have API issues.
+    $inactive_lists = db_result(db_query("SELECT count(*) FROM {emf_list} WHERE status_api = 0"));
+    if ($inactive_lists > 0) {
+      $requirements['emf_inactive_lists'] = array(
+        'title' => $t('E-mail Marketing Framework lists'),
+        'description' => $t('Some lists could not be found on your e-mail marketing service anymore.'),
+        'severity' => REQUIREMENT_ERROR,
+        'value' => $t('List not found'),
+      );
+    }
   }
 
   return $requirements;
