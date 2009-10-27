@@ -91,3 +91,27 @@ function _emf_allow_sync($type) {
 
   return FALSE;
 }
+
+/**
+ * Check if a certain user has permission to subscribe to a list.
+ *
+ * @param $lid
+ *   String; The list id to permission has to be checked for.
+ * @return
+ *   Boolean; TRUE if user has permission; FALSE if not.
+ */
+function emf_user_access($lid) {
+  global $user;
+  
+  // superuser has access to all lists
+  if ($user->uid == 1) return TRUE;
+  
+  // check roles
+  $result = db_query("SELECT rid FROM {emf_list_roles} WHERE lid = '%s'", $lid);
+  while ($role = db_fetch_object($result)) {
+    if (in_array($role->rid, array_keys($user->roles))) {
+      return TRUE;
+    }
+  }
+  return FALSE;
+}

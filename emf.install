@@ -73,6 +73,9 @@ function emf_schema() {
     ),
     'primary key' => array('mail', 'lid'),
   );
+  
+  // list roles
+  $schema['emf_list_roles'] = _emf_schema_list_roles();
 
   return $schema;
 }
@@ -138,6 +141,51 @@ function emf_update_6001() {
       }
     }
     db_query("UPDATE {emf_list} SET field_mapping = '%s' WHERE lid = '%s'", serialize($field_mapping), $lid);
+  }
+  
+  return $ret;
+}
+
+function _emf_schema_list_roles() {
+  return array(
+    'fields' => array(
+      'lid' => array('type' => 'varchar', 'length' => '64', 'not null' => TRUE),
+      'rid' => array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE),
+    ),
+    'primary key' => array('lid', 'rid'),
+    'indexes' => array(
+      'rid' => array('rid'),
+      'lid' => array('lid'),
+    ),
+  );
+}
+
+/**
+ * Adding list roles table.
+ */
+function emf_update_6002() {
+  $schema['emf_list_roles'] = _emf_schema_list_roles();
+  
+  db_create_table($ret, 'emf_list_roles', $schema['emf_list_roles']);
+  
+  // get all old permissions
+  $old_permissions = array();
+  $lists = emf_db_get_lists(TRUE);
+  foreach ($lists as $list) {
+    $old_permissions['subscribe to '. $list->name_api] = $list->lid;
+  }
+  
+  // migrate role permissions to new system
+  $result = db_query("SELECT rid, perm FROM {permission}");
+  while ($row = db_fetch_object($result)) {
+    $rid = $row->rid;
+    $permissions = explode(', ', $row->perm);
+    foreach ($permissions as $permission) {
+      if (in_array($permission, array_keys($old_permissions))) {
+        $lid = $old_permissions[$permission];
+        db_query("INSERT INTO {emf_list_roles} (lid, rid) VALUES ('%s', %d)", $lid, $rid);
+      }
+    }
   }
   
   return $ret;

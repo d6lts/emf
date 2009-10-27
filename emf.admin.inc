@@ -367,6 +367,56 @@ function emf_admin_field_mapping_form_submit($form, &$form_state) {
   drupal_set_message(t('Mapping modifications have been successfully saved.'));
 }
 
+function emf_admin_roles_form(&$form_state, $list) {
+  $form = array();
+  
+  $form['lid'] = array(
+    '#type' => 'hidden',
+    '#value' => $list->lid,
+  );
+  
+  // list roles as options array
+  $default_role_options = array();
+  $result = db_query("SELECT rid FROM {emf_list_roles} WHERE lid = '%s'", $list->lid);
+  while ($role = db_fetch_object($result)) {
+    $default_role_options[$role->rid] = $role->rid;
+  }
+
+  // all roles as options array
+  $roles = user_roles();
+  $role_options = array();
+  foreach ($roles as $rid => $name) {
+    $role_options[$rid] = $name;
+  }
+  
+  $form['roles'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Allow subscription for specific roles'),
+    '#default_value' => $default_role_options,
+    '#options' => $role_options,
+    '#description' => t('If a user has any of the roles checked, he will be able to subscribe to this list and see its block, page etc.'),
+  );
+  
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save'),
+  );
+  
+  return $form;
+}
+
+function emf_admin_roles_form_submit($form, &$form_state) {
+  db_query("DELETE FROM {emf_list_roles} WHERE lid = '%s'", $form_state['values']['lid']);
+
+  $roles = array_filter($form_state['values']['roles']);
+  foreach ($roles as $rid) {
+    db_query("INSERT INTO {emf_list_roles} (lid, rid) VALUES ('%s', %d)", $form_state['values']['lid'], $rid);
+  }
+
+  // success message
+  drupal_set_message(t('Role modifications have been successfully saved.'));
+}
+
 function emf_admin_delete_confirm_form(&$form_state, $list) {
   $form['lid'] = array(
     '#type' => 'value',

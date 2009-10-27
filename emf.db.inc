@@ -199,6 +199,7 @@ function emf_db_delete_list($lid) {
   db_query("DELETE FROM {emf_list} WHERE lid = '%s'", $lid);
   db_query("DELETE FROM {emf_request} WHERE lid = '%s'", $lid);
   db_query("DELETE FROM {emf_subscription} WHERE lid = '%s'", $lid);
+  db_query("DELETE FROM {emf_list_roles} WHERE lid = '%s'", $lid);
 }
 
 /**
