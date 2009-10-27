@@ -146,7 +146,7 @@ function emf_db_get_lists($active_only = FALSE) {
   // only fetch active lists
   $filter = '';
   if ($active_only) {
-    $filter = ' WHERE status = 1 AND status_api = 1';
+    $filter = ' WHERE status = 1';
   }
 
   $result = db_query("SELECT * FROM {emf_list}$filter");
