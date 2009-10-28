@@ -1,0 +1,6 @@
+; $Id$
+name = Campaign Monitor Plugin
+description = E-mail Marketing Framework plugin for Campaign Monitor integration.
+core = 6.x
+package = E-mail Marketing Framework
+dependencies[] = emf
