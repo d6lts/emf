@@ -1,5 +1,5 @@
 <?php
-// $Id
+// $Id$
 
 /**
  * @file
@@ -14,8 +14,8 @@
 function emf_install() {
   drupal_install_schema('emf');
 
-  $link = array('!link' => l(t('Administer > Site configuration > E-mail Marketing Framework'), 'admin/settings/emf'));
-  drupal_set_message(t("E-mail Marketing Framework module settings are available under !link", $link));
+  $link = array('!link' => l(st('Administer > Site configuration > E-mail Marketing Framework'), 'admin/settings/emf'));
+  drupal_set_message(st("E-mail Marketing Framework module settings are available under !link", $link));
 }
 
 /**

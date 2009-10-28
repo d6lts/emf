@@ -1,5 +1,5 @@
 <?php
-// $Id
+// $Id$
 
 /**
  * @file
@@ -82,7 +82,7 @@ function emf_admin_list_info_form(&$form_values, $list = NULL) {
   );
   $form['info_api']['value'] = array(
     '#type' => 'markup',
-    '#value' => l('View subscription page', 'emf/'. $list->lid),
+    '#value' => l(t('View subscription page'), 'emf/'. $list->lid),
   );
 
   // status

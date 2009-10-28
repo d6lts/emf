@@ -1,4 +1,5 @@
 <?php
+// $Id$
 
 function emf_page($list = NULL) {
   module_load_include('inc', 'emf', 'emf.form');

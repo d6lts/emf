@@ -173,7 +173,7 @@ function campaign_monitor_api_get_custom_fields($lid) {
   }
 
   // adding name field since it's not passed by campaign monitor as a custom field
-  $decoded['name'] = new StdClass();
+  $decoded['name'] = new stdClass();
   $decoded['name']->key = 'name';
   $decoded['name']->name = 'Name';
   $decoded['name']->type = 'text';
