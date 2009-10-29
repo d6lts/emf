@@ -54,8 +54,8 @@ function emf_mailchimp_update_6001() {
   $ret = array();
   
   // renaming variable to reflect module name change
-  db_query("UPDATE {variable} SET name = 'emf_campaign_monitor_api_key' WHERE name = 'campaign_monitor_api_key'");
-  db_query("UPDATE {variable} SET name = 'emf_campaign_monitor_client_id' WHERE name = 'campaign_monitor_client_id'");
+  $ret[] = update_sql("UPDATE {variable} SET name = 'emf_campaign_monitor_api_key' WHERE name = 'campaign_monitor_api_key'");
+  $ret[] = update_sql("UPDATE {variable} SET name = 'emf_campaign_monitor_client_id' WHERE name = 'campaign_monitor_client_id'");
   cache_clear_all('variables', 'cache');
   
   return $ret;

@@ -164,6 +164,8 @@ function _emf_schema_list_roles() {
  * Adding list roles table.
  */
 function emf_update_6002() {
+  $ret = array();
+  
   $schema['emf_list_roles'] = _emf_schema_list_roles();
   
   db_create_table($ret, 'emf_list_roles', $schema['emf_list_roles']);
@@ -183,7 +185,7 @@ function emf_update_6002() {
     foreach ($permissions as $permission) {
       if (in_array($permission, array_keys($old_permissions))) {
         $lid = $old_permissions[$permission];
-        db_query("INSERT INTO {emf_list_roles} (lid, rid) VALUES ('%s', %d)", $lid, $rid);
+        $ret[] = update_sql(sprintf("INSERT INTO {emf_list_roles} (lid, rid) VALUES ('%s', %d)", $lid, $rid));
       }
     }
   }
