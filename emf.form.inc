@@ -35,6 +35,15 @@ function emf_subscription_list_form($form, $lid = NULL, $hide_subscribed = TRUE)
 
     $lists = array_diff($lists, $subscribed_lists);
   }
+  
+  // check for each list if user has access
+  $tmp = array();
+  foreach ($lists as $list) {
+    if (emf_user_access($list)) {
+      $tmp[] = $list;
+    }
+  }
+  $lists = $tmp;
 
   if (count($lists) == 0) {
     return;

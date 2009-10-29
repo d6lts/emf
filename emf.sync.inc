@@ -50,18 +50,18 @@ function emf_sync_lists() {
     $other = array_intersect_key($api_lists, $db_lists);
 
     foreach ($added as $list) {
-      emf_db_save_list($list->lid, $list->name_api, TRUE, $name, $status, $name_action, $name_action_long, '');
+      emf_db_save_list($list->lid, $list->name_api, TRUE, $name, $status, $name_action, $name_action_long, '', '');
     }
 
     foreach ($missing as $lid => $list) {
-      emf_db_save_list($list->lid, $list->name_api, FALSE, $list->name, $list->status, $list->name_action, $list->name_action_long, $list->description);
+      emf_db_save_list($list->lid, $list->name_api, FALSE, $list->name, $list->status, $list->name_action, $list->name_action_long, $list->description, $list->language);
     }
     
     foreach ($other as $lid => $list) {
       if ($api_lists[$lid]->name_api != $db_lists[$lid]->name_api) {
         $list_api = $api_lists[$lid];
         $list_db = $db_lists[$lid];
-        emf_db_save_list($list_db->lid, $list_api->name_api, $list_db->status_api, $list_db->name, $list_db->status, $list_db->name_action, $list_db->name_action_long, $list_db->description);
+        emf_db_save_list($list_db->lid, $list_api->name_api, $list_db->status_api, $list_db->name, $list_db->status, $list_db->name_action, $list_db->name_action_long, $list_db->description, $list->db->language);
       }
     }
   }
@@ -69,7 +69,7 @@ function emf_sync_lists() {
   // check lists that were lost but now found again
   foreach ($db_lists as $list) {
     if ($list->status_api == FALSE && array_key_exists($list->lid, $api_lists)) {
-      emf_db_save_list($list->lid, $list->name_api, TRUE, $list->name, $list->status, $list->name_action, $list->name_action_long, $list->description);
+      emf_db_save_list($list->lid, $list->name_api, TRUE, $list->name, $list->status, $list->name_action, $list->name_action_long, $list->description, $list->language);
     }
   }
 }

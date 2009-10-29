@@ -97,6 +97,24 @@ function emf_admin_list_info_form(&$form_values, $list = NULL) {
     '#description' => t('If a list is not activated, it\'s fields and subscriptions will not be synced with your e-mail marketing service. Subscription will not be possible and no subscription block will be available for the list.'),
     '#default_value' => $list->status,
   );
+  
+  // language
+  if ($languages = module_invoke('locale', 'language_list')) {
+    $languages = array('' => t('Language neutral')) + $languages;
+    
+    $form['language'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Language'),
+      '#collapsible' => TRUE,
+    );
+    $form['language']['language'] = array(
+      '#type' => 'select',
+      '#title' => t('Language'),
+      '#description' => t('Setting a list for a language means its block and its entry in the common subscription form will only appear on pages in that language.'),
+      '#options' => $languages,
+      '#default_value' => $list->language,
+    );
+  }
 
   // info
   $form['info'] = array(
@@ -155,9 +173,10 @@ function emf_admin_list_info_form_submit($form, &$form_state) {
   $name_action = $form_state['values']['name_action'];
   $name_action_long = $form_state['values']['name_action_long'];
   $description = $form_state['values']['description'];
+  $language = $form_state['values']['language'] ? $form_state['values']['language'] : '';
 
   // saving to database
-  emf_db_save_list($lid, $name_api, $status_api, $name, $status, $name_action, $name_action_long, $description);
+  emf_db_save_list($lid, $name_api, $status_api, $name, $status, $name_action, $name_action_long, $description, $language);
 
   // success message
   drupal_set_message(t('List modifications have been successfully saved.'));

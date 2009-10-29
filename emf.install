@@ -192,3 +192,11 @@ function emf_update_6002() {
   
   return $ret;
 }
+
+function emf_update_6003() {
+  $return = array();
+
+  db_add_field($return, 'emf_list', 'language', array('type' => 'varchar', 'not null' => TRUE, 'length' => 12));
+
+  return $return;
+}

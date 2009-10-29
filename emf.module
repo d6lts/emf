@@ -259,6 +259,10 @@ function emf_block($op = 'list', $delta = 0, $edit = array()) {
         if ($list->status && emf_user_access($list->lid)) {
           $show_block = TRUE;
         }
+
+        if (variable_get('language_count', 1) > 1 && !empty($list->language) && $list->language != $GLOBALS['language']->language) {
+          $show_block = FALSE;
+        }
       }
 
       if ($show_block) {
