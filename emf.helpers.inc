@@ -115,3 +115,17 @@ function emf_user_access($lid) {
   }
   return FALSE;
 }
+
+function emf_list_visibile($lid) {
+  $list = emf_db_get_list($lid);
+  
+  if (variable_get('language_count', 1) > 1 && !empty($list->language) && $list->language != $GLOBALS['language']->language) {
+    return FALSE;
+  }
+  
+  if ($list->status && emf_user_access($list->lid)) {
+    return TRUE;
+  }
+  
+  return FALSE;
+}

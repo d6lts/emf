@@ -41,17 +41,9 @@ function emf_subscription_list_form($form, $lid = NULL, $hide_subscribed = TRUE)
   foreach ($lists as $list) {
     $show_list = FALSE;
     
-    $list = emf_db_get_list($list);
-    
-    if (!emf_user_access($list)) {
-      continue;
+    if (emf_list_visibile($list)) {
+      $tmp[] = $list;
     }
-
-    if (variable_get('language_count', 1) > 1 && !empty($list->language) && $list->language != $GLOBALS['language']->language) {
-      continue;
-    }
-    
-    $tmp[] = $list->lid;
   }
   $lists = $tmp;
 
