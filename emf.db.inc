@@ -185,7 +185,7 @@ function emf_db_save_list($lid, $name_api, $status_api, $name, $status, $name_ac
     db_query("UPDATE {emf_list} SET name_api = '%s', status_api = %d, name = '%s', status = %d, name_action = '%s', name_action_long = '%s', description = '%s', language = '%s' WHERE lid = '%s'", $name_api, $status_api, $name, $status, $name_action, $name_action_long, $description, $language, $lid);
   }
   else {
-    db_query("INSERT INTO {emf_list} (lid, name_api, status_api, name, status, name_action, name_action_long, description) VALUES ('%s', '%s', %d, '%s', %d, '%s', '%s', '%s', '%s')", $lid, $name_api, $status_api, $name, $status, $name_action, $name_action_long, $description, $language);
+    db_query("INSERT INTO {emf_list} (lid, name_api, status_api, name, status, name_action, name_action_long, description, language) VALUES ('%s', '%s', %d, '%s', %d, '%s', '%s', '%s', '%s')", $lid, $name_api, $status_api, $name, $status, $name_action, $name_action_long, $description, $language);
   }
 }
 
