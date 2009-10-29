@@ -7,6 +7,18 @@
  *
  * @author Davy Van Den Bremt
  */
+ 
+/**
+ * Implementation of hook_install().
+ */
+function emf_campaign_monitor_install() {
+  $ret = array();
+  
+  // renaming variable to reflect module name change
+  db_query("UPDATE {variable} SET name = 'emf_campaign_monitor_api_key' WHERE name = 'campaign_monitor_api_key'");
+  
+  cache_clear_all('variables', 'cache');
+}
 
 /**
  * Implementation of hook_uninstall().
@@ -48,15 +60,4 @@ function emf_campaign_monitor_requirements($phase) {
   }
 
   return $requirements;
-}
-
-function emf_mailchimp_update_6001() {
-  $ret = array();
-  
-  // renaming variable to reflect module name change
-  $ret[] = update_sql("UPDATE {variable} SET name = 'emf_campaign_monitor_api_key' WHERE name = 'campaign_monitor_api_key'");
-  $ret[] = update_sql("UPDATE {variable} SET name = 'emf_campaign_monitor_client_id' WHERE name = 'campaign_monitor_client_id'");
-  cache_clear_all('variables', 'cache');
-  
-  return $ret;
 }
