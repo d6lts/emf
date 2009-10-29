@@ -36,12 +36,22 @@ function emf_subscription_list_form($form, $lid = NULL, $hide_subscribed = TRUE)
     $lists = array_diff($lists, $subscribed_lists);
   }
   
-  // check for each list if user has access
+  // check for each list if user has access and if language is ok
   $tmp = array();
   foreach ($lists as $list) {
-    if (emf_user_access($list)) {
-      $tmp[] = $list;
+    $show_list = FALSE;
+    
+    $list = emf_db_get_list($list);
+    
+    if (!emf_user_access($list)) {
+      continue;
     }
+
+    if (variable_get('language_count', 1) > 1 && !empty($list->language) && $list->language != $GLOBALS['language']->language) {
+      continue;
+    }
+    
+    $tmp[] = $list->lid;
   }
   $lists = $tmp;
 
