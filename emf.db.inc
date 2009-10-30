@@ -116,9 +116,9 @@ function emf_db_get_list($lid = 0) {
   $list->field_mapping = empty($list->field_mapping) ? array() : unserialize($list->field_mapping);
   _emf_db_sort_field_mapping($list->field_mapping);
 
-  $list->name_clean = t($list->name, array('!name_api' => $list->name_api));
-  $list->name_action_clean = t($list->name_action, array('!name_api' => $list->name_api, '!name' => $list->name_clean));
-  $list->name_action_long_clean = t($list->name_action_long, array('!name_api' => $list->name_api, '!name' => $list->name_clean));
+  $list->name_clean = strtr($list->name, array('!name_api' => $list->name_api));
+  $list->name_action_clean = strtr($list->name_action, array('!name_api' => $list->name_api, '!name' => $list->name_clean));
+  $list->name_action_long_clean = strtr($list->name_action_long, array('!name_api' => $list->name_api, '!name' => $list->name_clean));
 
   return $list;
 }

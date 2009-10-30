@@ -180,6 +180,6 @@ function emf_subscription_list_form_submit($form, &$form_state) {
     // subscribe user
     emf_helpers_subscribe($mail, $list->lid, $field_values);
 
-    drupal_set_message(t('You have now been subscribed to the mailing list !list', array('!list' => $list->name_clean)));
+    drupal_set_message(t('You have now been subscribed to the mailing list !list', array('!list' => t($list->name_clean))));
   }
 }
