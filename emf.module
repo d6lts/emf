@@ -161,27 +161,6 @@ function emf_menu() {
 }
 
 /**
- * Implementation of hook_menu_alter().
- */
-function emf_menu_alter(&$callbacks) {
-
-  unset($callbacks['admin/build/emf/%emf_list']);
-  $lists = emf_db_get_lists();
-  foreach ($lists as $list) {
-    
-  $callbacks['admin/build/emf/'. $list->lid] = array(
-    'title' => $list->name_api,
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('emf_admin_list_info_form', 3),
-    'type' => MENU_NORMAL_ITEM ,
-    'access arguments' => array('administer lists'),
-    'file' => drupal_get_path('module', 'emf'). '/emf.admin.inc',
-  );
-  }
-  
-}
-
-/**
  * Implementation of hook_theme()
  */
 function emf_theme() {
