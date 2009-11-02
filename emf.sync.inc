@@ -153,7 +153,7 @@ function emf_sync_push_requests() {
   // loop through all requests ...
   while ($count < $count_requests) {
     // stop 5 seconds before script time out.
-    if (($max_execution_time - 5) < round(timer_read('page') / 1000))
+    if (($max_execution_time - 5) < round(timer_read('page') / 1000)) break;
 
     // fetch the request
     $request = $requests[$count];
