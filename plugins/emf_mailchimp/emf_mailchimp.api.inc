@@ -189,7 +189,7 @@ function _emf_mailchimp_api_get_array_call($method, $params, $fields, $key = NUL
   // do api call
   $results = _emf_mailchimp_api_call($method, $params);
 
-  if ($results->errorCode) return FALSE;
+  if (!$results) return FALSE;
 
   // converting api result to array
   foreach ($results as $result) {
@@ -225,7 +225,7 @@ function _emf_mailchimp_api_get_scalar_array_call($method, $params, $field) {
   // do api call
   $results = _emf_mailchimp_api_call($method, $params);
 
-  if ($results->errorCode) return FALSE;
+  if (!$results) return FALSE;
 
   // converting api result to array
   foreach ($results as $result) {
