@@ -8,8 +8,12 @@
  * @author Davy Van Den Bremt
  */
 
-function emf_helpers_parse_field_values($lid) {
+function emf_helpers_parse_field_values($lid, $account = NULL) {
   global $user;
+  
+  if (!$account) {
+    $account = $user;
+  }
 
   $values = array();
 
@@ -24,21 +28,21 @@ function emf_helpers_parse_field_values($lid) {
 
     // profile mapping
     elseif ($field->mapping_type == 'profile' && module_exists('profile')) {
-      profile_load_profile($user);
+      profile_load_profile($account);
 
-      if ($user->{$field->mapping_value}) {
-        $values[$field->key] = $user->{$field->mapping_value};
+      if ($account->{$field->mapping_value}) {
+        $values[$field->key] = $account->{$field->mapping_value};
       }
     }
 
     // token mapping
     elseif ($field->mapping_type == 'token' && module_exists('token')) {
       if (module_exists('profile')) {
-        profile_load_profile($user);
+        profile_load_profile($account);
       }
 
       $token_pattern = $field->mapping_value;
-      $values[$field->key] = token_replace($token_pattern, 'user', $user);
+      $values[$field->key] = token_replace($token_pattern, 'user', $account);
     }
   }
 
