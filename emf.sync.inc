@@ -90,7 +90,7 @@ function emf_sync_fields() {
       $mapping['mail'] = new stdClass();
       if (module_exists('token')) {
         $mapping['mail']->mapping_type = 'token';
-        $mapping['mail']->mapping_value = '[user-mail]';
+        $mapping['mail']->mapping_value = '[mail]';
       }
       else {
         $mapping['mail']->mapping_type = 'php';
