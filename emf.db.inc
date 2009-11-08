@@ -154,6 +154,9 @@ function emf_db_get_lists($active_only = FALSE) {
     $row->field_mapping = empty($row->field_mapping) ? array() : unserialize($row->field_mapping);
     _emf_db_sort_field_mapping($row->field_mapping);
     $lists[$row->lid] = $row;
+    $lists[$row->lid]->name_clean = strtr($lists[$row->lid]->name, array('!name_api' => $lists[$row->lid]->name_api));
+    $lists[$row->lid]->name_action_clean = strtr($lists[$row->lid]->name_action, array('!name_api' => $lists[$row->lid]->name_api, '!name' => $lists[$row->lid]->name_clean));
+    $lists[$row->lid]->name_action_long_clean = strtr($lists[$row->lid]->name_action_long, array('!name_api' => $lists[$row->lid]->name_api, '!name' => $lists[$row->lid]->name_clean));
   }
 
   return $lists;
