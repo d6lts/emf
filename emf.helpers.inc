@@ -22,8 +22,14 @@ function emf_helpers_parse_field_values($lid, $account = NULL) {
   foreach ($list->field_mapping as $field) {
     // php mapping
     if ($field->mapping_type == 'php') {
+      
+      $result = '';
+      ob_start();
       $code = $field->mapping_value;
-      $values[$field->key] = drupal_eval($code);
+      $result = eval($code);
+      ob_end_clean();
+      
+      $values[$field->key] = $result;
     }
 
     // profile mapping

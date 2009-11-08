@@ -200,3 +200,24 @@ function emf_update_6003() {
 
   return $return;
 }
+
+/**
+ * Removing <?php and ?> from field mapping value.
+ */
+function emf_update_6004() {
+  $ret = array();
+  
+  $result = db_query("SELECT lid, field_mapping FROM {emf_list}");
+  while ($row = db_fetch_object($result)) {
+    $lid = $row->lid;
+    $field_mapping = unserialize($row->field_mapping);
+    foreach ($field_mapping as $field => $mapping) {
+      if ($mapping->mapping_type == 'php') {
+        $mapping->mapping_value = htmlentities(trim(preg_replace('/\?>\w*$/', '', preg_replace('/^[^<]*<\?php/i', '', $mapping->mapping_value))));
+      }
+    }
+    db_query("UPDATE {emf_list} SET field_mapping = '%s' WHERE lid = '%s'", serialize($field_mapping), $lid);
+  }
+  
+  return $ret;
+}

@@ -94,7 +94,7 @@ function emf_sync_fields() {
       }
       else {
         $mapping['mail']->mapping_type = 'php';
-        $mapping['mail']->mapping_value = '<?php global $user; return $user->mail; ?>';
+        $mapping['mail']->mapping_value = 'return $account->mail;';
       }
       $mapping['mail']->weight = 0;
     }
