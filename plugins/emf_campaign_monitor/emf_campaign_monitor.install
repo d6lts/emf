@@ -18,6 +18,9 @@ function emf_campaign_monitor_install() {
   db_query("UPDATE {variable} SET name = 'emf_campaign_monitor_api_key' WHERE name = 'campaign_monitor_api_key'");
   
   cache_clear_all('variables', 'cache');
+
+  $link = array('!link' => l(st('Administer > Site configuration > Campaign Monitor'), 'admin/settings/emf_campaign_monitor'));
+  drupal_set_message(st("Campaign Monitor module settings are available under !link", $link));
 }
 
 /**

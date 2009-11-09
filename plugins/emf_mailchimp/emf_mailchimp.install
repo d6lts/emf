@@ -16,6 +16,9 @@ function emf_mailchimp_install() {
   db_query("UPDATE {variable} SET name = 'emf_mailchimp_api_key' WHERE name = 'mailchimp_api_key'");
   
   cache_clear_all('variables', 'cache');
+
+  $link = array('!link' => l(st('Administer > Site configuration > MailChimp'), 'admin/settings/emf_mailchimp'));
+  drupal_set_message(st("MailChimp module settings are available under !link", $link));
 }
 
 /**
