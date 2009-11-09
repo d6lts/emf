@@ -148,7 +148,7 @@ function emf_sync_push_requests() {
   $count = 0;
 
   // store maximum execution time
-  $max_execution_time = ini_get('max_execution_time');
+  $max_execution_time = ini_get('max_execution_time') == 0 ? 120 : ini_get('max_execution_time');
 
   // loop through all requests ...
   while ($count < $count_requests) {
