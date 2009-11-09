@@ -45,6 +45,7 @@ function emf_schema() {
       'name_action_long'   => array('type' => 'varchar', 'length' => '255', 'not null' => TRUE, 'default' => ''),
       'description'        => array('type' => 'text', 'not null' => TRUE),
       'field_mapping'      => array('type' => 'text', 'not null' => TRUE),
+      'language'           => array('type' => 'varchar', 'length' => '12', 'not null' => TRUE, 'default' => ''),
     ),
     'primary key' => array('lid'),
   );
@@ -196,7 +197,7 @@ function emf_update_6002() {
 function emf_update_6003() {
   $return = array();
 
-  db_add_field($return, 'emf_list', 'language', array('type' => 'varchar', 'not null' => TRUE, 'length' => 12));
+  db_add_field($return, 'emf_list', 'language', array('type' => 'varchar', 'not null' => TRUE, 'length' => '12', 'default' => ''));
 
   return $return;
 }
