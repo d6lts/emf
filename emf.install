@@ -91,7 +91,7 @@ function emf_requirements($phase) {
 
   if ($phase == 'runtime') {
 
-    $plugins = emfget_plugins();
+    $plugins = emf_get_plugins();
 
     // Raise warning if no plugin modules have been enabled.
     if (empty($plugins)) {

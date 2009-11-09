@@ -306,8 +306,8 @@ function emf_user($op, &$edit, &$user) {
  * @return
  *   Mixed values (typically Boolean indicating successful operation).
  */
-function emfplugin_invoke($method, $params = array()) {
-  if ($plugin = emfget_plugin()) {
+function emf_plugin_invoke($method, $params = array()) {
+  if ($plugin = emf_get_plugin()) {
     $function = $plugin->module .'_api_'. $method;
 
     // load api file
@@ -332,7 +332,7 @@ function emfplugin_invoke($method, $params = array()) {
  * @return
  *   Array of plugin objects.
  */
-function emfget_plugins() {
+function emf_get_plugins() {
   $plugins = array();
   foreach (module_implements('emf_info', TRUE) as $module) {
     $plugin = module_invoke($module, 'emf_info');
@@ -348,8 +348,8 @@ function emfget_plugins() {
  * @return
  *   Active plugin object.
  */
-function emfget_plugin() {
-  $plugins = emfget_plugins();
+function emf_get_plugin() {
+  $plugins = emf_get_plugins();
   if (count($plugins) > 0) {
     return $plugins[0];
   }

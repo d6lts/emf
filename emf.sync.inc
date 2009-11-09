@@ -35,7 +35,7 @@ function emf_sync() {
  * Synchronise mailing lists.
  */
 function emf_sync_lists() {
-  $api_lists = emfplugin_invoke('get_lists', array());
+  $api_lists = emf_plugin_invoke('get_lists', array());
   $db_lists = emf_db_get_lists();
 
   $name = variable_get('emf_default_name', '!name_api');
@@ -83,7 +83,7 @@ function emf_sync_fields() {
   foreach ($lists as $list) {
     $mapping = array();
 
-    $fields = emfplugin_invoke('get_custom_fields', array($list->lid));
+    $fields = emf_plugin_invoke('get_custom_fields', array($list->lid));
 
     // default field : mail
     if (!isset($list->field_mapping['mail'])) {
@@ -170,10 +170,10 @@ function emf_sync_push_requests() {
     // push it
     $success = FALSE;
     if ($request->type == 'subscribe') {
-      $success = emfplugin_invoke('subscribe', array($request->mail, $fields, $request->lid));
+      $success = emf_plugin_invoke('subscribe', array($request->mail, $fields, $request->lid));
     }
     else {
-      $success = emfplugin_invoke('unsubscribe', array($request->mail, $request->lid));
+      $success = emf_plugin_invoke('unsubscribe', array($request->mail, $request->lid));
     }
 
     // if push succeeded, request can be deleted
@@ -190,7 +190,7 @@ function emf_sync_push_requests() {
  * Synchronise all subscriptions
  */
 function emf_sync_subscriptions() {
-  $last_sync = emfplugin_invoke('unix_to_service_time', array(variable_get('emf_last_sync_subscriptions', 0)));
+  $last_sync = emf_plugin_invoke('unix_to_service_time', array(variable_get('emf_last_sync_subscriptions', 0)));
 
   $lists = emf_db_get_lists(TRUE);
   foreach ($lists as $lid => $list) {
@@ -198,8 +198,8 @@ function emf_sync_subscriptions() {
     $requests = emf_db_get_requests();
 
     // fetching subscriptions
-    $subscribed = emfplugin_invoke('get_subscribers_subscribed', array($last_sync, $lid));
-    $unsubscribed = emfplugin_invoke('get_subscribers_unsubscribed', array($last_sync, $lid));
+    $subscribed = emf_plugin_invoke('get_subscribers_subscribed', array($last_sync, $lid));
+    $unsubscribed = emf_plugin_invoke('get_subscribers_unsubscribed', array($last_sync, $lid));
 
     // errors?
     if ($subscribed === FALSE || $unsubscribed === FALSE) return;
