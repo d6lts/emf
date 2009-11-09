@@ -14,7 +14,7 @@
 function emf_mailchimp_install() {
   // renaming variable to reflect module name change
   db_query("UPDATE {variable} SET name = 'emf_mailchimp_api_key' WHERE name = 'mailchimp_api_key'");
-  
+
   cache_clear_all('variables', 'cache');
 
   $link = array('!link' => l(st('Administer > Site configuration > MailChimp'), 'admin/settings/emf_mailchimp'));

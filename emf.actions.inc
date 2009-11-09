@@ -1,4 +1,12 @@
 <?php
+// $Id$
+
+/**
+ * @file
+ * Actions integration.
+ *
+ * @author Davy Van Den Bremt
+ */
 
 /**
  * Implementation of hook_action_info().
@@ -12,7 +20,7 @@ function emf_action_info() {
       'user' => array('view', 'insert', 'update', 'delete', 'login'),
     ),
   );
-  
+
   $info['emf_unsubscribe_action'] = array(
     'type' => 'system',
     'description' => t('Unsubscribe a user from certain EMF lists'),
@@ -31,11 +39,11 @@ function emf_subscribe_action_form($context) {
   foreach ($lists as $list) {
     $options[$list->lid] = $list->name_action_clean;
   }
-  
+
   $form['lists'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Lists'),
-    '#description' => t('Select the lists for this action.'), 
+    '#description' => t('Select the lists for this action.'),
     '#options' => $options,
     '#default_value' => isset($context['lists']) ? $context['lists'] : array(),
     '#required' => TRUE,
@@ -69,7 +77,7 @@ function emf_subscribe_action($object, $context) {
     // subscribe user
     emf_helpers_subscribe($mail, $lid, $field_values);
   }
-} 
+}
 
 function emf_unsubscribe_action($object, $context) {
   $account = emf_action_account($object, $context);
@@ -78,13 +86,13 @@ function emf_unsubscribe_action($object, $context) {
     // unsubscribe user
     emf_helpers_unsubscribe($account->mail, $lid);
   }
-} 
+}
 
 function emf_action_account($object, $context) {
   global $user;
-  
+
   $account = $object;
-  
+
   if (!isset($account)) {
     $account = $context['account'];
   }
@@ -92,6 +100,6 @@ function emf_action_account($object, $context) {
   if (!isset($account)) {
     $account = $user;
   }
-  
+
   return $account;
 }

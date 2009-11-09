@@ -35,12 +35,12 @@ function emf_subscription_list_form($form, $lid = NULL, $hide_subscribed = TRUE)
 
     $lists = array_diff($lists, $subscribed_lists);
   }
-  
+
   // check for each list if user has access and if language is ok
   $tmp = array();
   foreach ($lists as $list) {
     $show_list = FALSE;
-    
+
     if (emf_list_visibile($list)) {
       $tmp[] = $list;
     }

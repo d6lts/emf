@@ -56,7 +56,7 @@ function emf_sync_lists() {
     foreach ($missing as $lid => $list) {
       emf_db_save_list($list->lid, $list->name_api, FALSE, $list->name, $list->status, $list->name_action, $list->name_action_long, $list->description, $list->language);
     }
-    
+
     foreach ($other as $lid => $list) {
       if ($api_lists[$lid]->name_api != $db_lists[$lid]->name_api) {
         $list_api = $api_lists[$lid];

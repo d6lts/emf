@@ -74,7 +74,7 @@ function emf_schema() {
     ),
     'primary key' => array('mail', 'lid'),
   );
-  
+
   // list roles
   $schema['emf_list_roles'] = _emf_schema_list_roles();
 
@@ -112,7 +112,7 @@ function emf_requirements($phase) {
         'value' => $t('Not installed'),
       );
     }
-    
+
     // Raise warning if some lists have API issues.
     $inactive_lists = db_result(db_query("SELECT count(*) FROM {emf_list} WHERE status_api = 0"));
     if ($inactive_lists > 0) {
@@ -130,7 +130,7 @@ function emf_requirements($phase) {
 
 function emf_update_6001() {
   $ret = array();
-  
+
   $result = db_query("SELECT lid, field_mapping FROM {emf_list}");
   while ($row = db_fetch_object($result)) {
     $lid = $row->lid;
@@ -143,7 +143,7 @@ function emf_update_6001() {
     }
     db_query("UPDATE {emf_list} SET field_mapping = '%s' WHERE lid = '%s'", serialize($field_mapping), $lid);
   }
-  
+
   return $ret;
 }
 
@@ -166,18 +166,18 @@ function _emf_schema_list_roles() {
  */
 function emf_update_6002() {
   $ret = array();
-  
+
   $schema['emf_list_roles'] = _emf_schema_list_roles();
-  
+
   db_create_table($ret, 'emf_list_roles', $schema['emf_list_roles']);
-  
+
   // get all old permissions
   $old_permissions = array();
   $lists = emf_db_get_lists(TRUE);
   foreach ($lists as $list) {
     $old_permissions['subscribe to '. $list->name_api] = $list->lid;
   }
-  
+
   // migrate role permissions to new system
   $result = db_query("SELECT rid, perm FROM {permission}");
   while ($row = db_fetch_object($result)) {
@@ -190,7 +190,7 @@ function emf_update_6002() {
       }
     }
   }
-  
+
   return $ret;
 }
 
@@ -207,7 +207,7 @@ function emf_update_6003() {
  */
 function emf_update_6004() {
   $ret = array();
-  
+
   $result = db_query("SELECT lid, field_mapping FROM {emf_list}");
   while ($row = db_fetch_object($result)) {
     $lid = $row->lid;
@@ -219,6 +219,6 @@ function emf_update_6004() {
     }
     db_query("UPDATE {emf_list} SET field_mapping = '%s' WHERE lid = '%s'", serialize($field_mapping), $lid);
   }
-  
+
   return $ret;
 }

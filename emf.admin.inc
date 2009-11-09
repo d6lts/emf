@@ -97,11 +97,11 @@ function emf_admin_list_info_form(&$form_values, $list = NULL) {
     '#description' => t('If a list is not activated, it\'s fields and subscriptions will not be synced with your e-mail marketing service. Subscription will not be possible and no subscription block will be available for the list.'),
     '#default_value' => $list->status,
   );
-  
+
   // language
   if ($languages = module_invoke('locale', 'language_list')) {
     $languages = array('' => t('Language neutral')) + $languages;
-    
+
     $form['language'] = array(
       '#type' => 'fieldset',
       '#title' => t('Language'),
@@ -371,7 +371,7 @@ function emf_admin_field_mapping_form_submit($form, &$form_state) {
       if ($mapping[$key]->mapping_value) {
         $mapping[$key]->mapping_type = $field['account_field_type'];
       }
-        
+
       $mapping[$key]->show_anonymous = $field['anonymous_field'];
       $mapping[$key]->common_form_show = $field['common_form_show'];
 
@@ -388,12 +388,12 @@ function emf_admin_field_mapping_form_submit($form, &$form_state) {
 
 function emf_admin_roles_form(&$form_state, $list) {
   $form = array();
-  
+
   $form['lid'] = array(
     '#type' => 'hidden',
     '#value' => $list->lid,
   );
-  
+
   // list roles as options array
   $default_role_options = array();
   $result = db_query("SELECT rid FROM {emf_list_roles} WHERE lid = '%s'", $list->lid);
@@ -407,7 +407,7 @@ function emf_admin_roles_form(&$form_state, $list) {
   foreach ($roles as $rid => $name) {
     $role_options[$rid] = $name;
   }
-  
+
   $form['roles'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Allow subscription for specific roles'),
@@ -415,12 +415,12 @@ function emf_admin_roles_form(&$form_state, $list) {
     '#options' => $role_options,
     '#description' => t('If a user has any of the roles checked, he will be able to subscribe to this list and see its block, page etc.'),
   );
-  
+
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save'),
   );
-  
+
   return $form;
 }
 

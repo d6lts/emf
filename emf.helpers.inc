@@ -10,7 +10,7 @@
 
 function emf_helpers_parse_field_values($lid, $account = NULL) {
   global $user;
-  
+
   if (!$account) {
     $account = $user;
   }
@@ -22,13 +22,13 @@ function emf_helpers_parse_field_values($lid, $account = NULL) {
   foreach ($list->field_mapping as $field) {
     // php mapping
     if ($field->mapping_type == 'php') {
-      
+
       $result = '';
       ob_start();
       $code = $field->mapping_value;
       $result = eval($code);
       ob_end_clean();
-      
+
       $values[$field->key] = $result;
     }
 
@@ -112,10 +112,10 @@ function _emf_allow_sync($type) {
  */
 function emf_user_access($lid) {
   global $user;
-  
+
   // superuser has access to all lists
   if ($user->uid == 1) return TRUE;
-  
+
   // check roles
   $result = db_query("SELECT rid FROM {emf_list_roles} WHERE lid = '%s'", $lid);
   while ($role = db_fetch_object($result)) {
@@ -128,14 +128,14 @@ function emf_user_access($lid) {
 
 function emf_list_visibile($lid) {
   $list = emf_db_get_list($lid);
-  
+
   if (variable_get('language_count', 1) > 1 && !empty($list->language) && $list->language != $GLOBALS['language']->language) {
     return FALSE;
   }
-  
+
   if ($list->status && emf_user_access($list->lid)) {
     return TRUE;
   }
-  
+
   return FALSE;
 }
