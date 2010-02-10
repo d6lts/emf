@@ -81,7 +81,11 @@ function emf_subscription_list_form($form, $lid = NULL, $hide_subscribed = TRUE)
         // don't show field in some occasions
         if (!$field->show_anonymous) continue;
         if ($lid == NULL && !$field->common_form_show) continue;
-        if (in_array($field->key, array('mail'))) continue;
+        
+        // set mail field weight
+        if (in_array($field->key, array('mail'))) {
+          $form['fields']['mail']['#weight'] = $field->weight;
+        }
 
         // display field
         switch ($field->type) {

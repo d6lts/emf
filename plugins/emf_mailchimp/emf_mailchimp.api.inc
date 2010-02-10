@@ -156,6 +156,7 @@ function _emf_mailchimp_api_call($method, $params = array()) {
 
   // do api call
   $mc = new MCAPI($api_key);
+  $mc->setTimeout(15);
   $result = call_user_func_array(array($mc, $method), $params);
 
   // if api result code is not 'ok', return false and write log
