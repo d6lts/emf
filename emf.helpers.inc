@@ -92,7 +92,7 @@ function emf_helpers_unsubscribe($mail, $lid) {
  *   Boolean; TRUE if sync can happen; FALSE if not.
  */
 function _emf_allow_sync($type) {
-  $frequency = variable_get('emf_sync'. $type .'_interval', 0);
+  $frequency = variable_get('emf_sync_'. $type .'_interval', 0);
   $last_sync = variable_get('emf_last_sync_'. $type, 0);
 
   if ($frequency > -1 && ($_SERVER['REQUEST_TIME'] - $last_sync > $frequency)) {
