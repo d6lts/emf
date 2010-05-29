@@ -14,7 +14,7 @@
 function emf_mailchimp_menu() {
 
   // settings
-  $items['admin/settings/mailchimp'] = array(
+  $items['admin/settings/emf_mailchimp'] = array(
     'title' => 'MailChimp',
     'description' => 'Configure MailChimp settings.',
     'page callback' => 'drupal_get_form',
