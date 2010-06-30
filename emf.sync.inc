@@ -201,11 +201,8 @@ function emf_sync_subscriptions() {
     $subscribed = emf_plugin_invoke('get_subscribers_subscribed', array($last_sync, $lid));
     $unsubscribed = emf_plugin_invoke('get_subscribers_unsubscribed', array($last_sync, $lid));
 
-    // errors?
-    if ($subscribed === FALSE || $unsubscribed === FALSE) return;
-
     // check subscriptions
-    if (count($subscribed) > 0) {
+    if ($subscribed !== FALSE && count($subscribed) > 0) {
       foreach ($subscribed as $mail) {
         // if a request is pending for this address, ignore subscription status
         if (in_array($mail, $requests)) continue;
@@ -216,7 +213,7 @@ function emf_sync_subscriptions() {
     }
 
     // check unsubscriptions
-    if (count($unsubscribed) > 0) {
+    if ($unsubscribed !== FALSE && count($unsubscribed) > 0) {
       foreach ($unsubscribed as $mail) {
         // if a request is pending for this address, ignore subscription status
         if (in_array($mail, $requests)) continue;
