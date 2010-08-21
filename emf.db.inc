@@ -16,7 +16,7 @@
  */
 function emf_db_get_requests() {
   $requests = array();
-  $result = db_query("SELECT * FROM {emf_request} ORDER BY timestamp DESC");
+  $result = db_query("SELECT * FROM {emf_request} ORDER BY timestamp ASC");
   while ($request = db_fetch_object($result)) {
     $request->fields = empty($request->fields) ? array() : unserialize($request->fields);
     $requests[$request->mail] = $request;
