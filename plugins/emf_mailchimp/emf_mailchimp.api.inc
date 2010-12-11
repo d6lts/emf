@@ -196,7 +196,9 @@ function _emf_mailchimp_api_get_array_call($method, $params, $fields, $key = NUL
   foreach ($results as $result) {
     $object = new stdClass();
     foreach ($fields as $local_field => $api_field) {
-      $object->{$local_field} = $result[$api_field];
+      if (isset($result[$api_field])) {
+        $object->{$local_field} = $result[$api_field];
+      }
     }
     if ($key) {
       $items[$object->{$key}] = $object;
