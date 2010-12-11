@@ -19,7 +19,7 @@ function emf_perm() {
   $permissions = array();
 
   $permissions[] = 'administer lists';
-  $permissions[] = 'view reports';
+  $permissions[] = 'view emf reports';
 
   return $permissions;
 }
@@ -123,7 +123,7 @@ function emf_menu() {
     'title' => 'E-mail Marketing Framework',
     'description' => 'View your e-mail marketing service subscriber and request reports.',
     'page callback' => 'emf_reports_subscriptions',
-    'access arguments' => array('view reports'),
+    'access arguments' => array('view emf reports'),
     'file' => 'emf.reports.inc',
   );
   $items['admin/reports/emf/subscriptions'] = array(
@@ -136,7 +136,7 @@ function emf_menu() {
     'page callback' => 'emf_reports_requests',
     'type' => MENU_LOCAL_TASK,
     'weight' => 1,
-    'access arguments' => array('view reports'),
+    'access arguments' => array('view emf reports'),
     'file' => 'emf.reports.inc',
   );
 
