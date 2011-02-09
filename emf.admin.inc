@@ -22,9 +22,9 @@ function emf_admin_lists() {
       'data' => array(
         $list->name_api,
         $list->lid,
-        l(t('Manage'), 'admin/build/emf/'. $list->lid .'/manage'),
-        l(t('View page'), 'emf/'. $list->lid),
-        $list->status_api ? '' : l(t('Delete'), 'admin/build/emf/'. $list->lid .'/delete'),
+        l(t('Manage'), 'admin/build/emf/'. $list->lid .'/manage') . ' - ' .
+        l(t('View page'), 'emf/'. $list->lid) .
+        ($list->status_api ? '' : ' - ' . l(t('Delete'), 'admin/build/emf/'. $list->lid .'/delete')),
       ),
       'class' => $list->status_api ? '' : 'list-error',
     );
