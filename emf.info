@@ -1,4 +1,3 @@
-; $Id$
 name = E-mail Marketing Framework
 description = Integration for list based e-mail marketing services like Campaign Monitor, MailChimp, ...
 core = 6.x

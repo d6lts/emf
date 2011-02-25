@@ -1,4 +1,3 @@
-; $Id$
 name = Campaign Monitor Plugin
 description = E-mail Marketing Framework plugin for Campaign Monitor integration.
 core = 6.x

@@ -1,4 +1,3 @@
-; $Id$
 name = MailChimp Plugin
 description = E-mail Marketing Framework plugin for MailChimp integration.
 core = 6.x
