@@ -35,15 +35,16 @@ function emf_db_get_requests() {
  * @param $fields
  *   Array; Values for fields to subscribe.
  */
-function emf_db_save_request($type, $mail, $lid, $fields = array()) {
-  $exists = db_result(db_query("SELECT mail FROM {emf_request} WHERE mail = '%s' AND lid = '%s'", $mail, $lid));
+function emf_db_save_request($type, $mail, $lid, $fields = array(), $fails = 0) {
+  $exists = db_result(db_query("SELECT count(mail) FROM {emf_request} WHERE mail = '%s' AND lid = '%s'", $mail, $lid));
   if ($exists) {
-    db_query("UPDATE {emf_request} SET type = '%s', fields = '%s', timestamp = UNIX_TIMESTAMP() WHERE mail = '%s' AND lid = '%s'", $type, serialize($fields), $mail, $lid);
+    db_query("UPDATE {emf_request} SET type = '%s', fields = '%s', timestamp = %d, fails = %d WHERE mail = '%s' AND lid = '%s'", array($type, serialize($fields), time(), $fails, $mail, $lid));
   }
   else {
-    db_query("INSERT INTO {emf_request} (type, mail, lid, fields, timestamp) VALUES ('%s', '%s', '%s', '%s', UNIX_TIMESTAMP())", $type, $mail, $lid, serialize($fields));
+    db_query("INSERT INTO {emf_request} (type, mail, lid, fields, timestamp, fails) VALUES ('%s', '%s', '%s', '%s', %d, %d)", array($type, $mail, $lid, serialize($fields), time(), $fails));
   }
 }
+
 
 /**
  * Delete a request from database.

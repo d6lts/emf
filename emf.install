@@ -57,6 +57,12 @@ function emf_schema() {
       'type'      => array('type' => 'varchar', 'length' => '32', 'not null' => TRUE),
       'fields'    => array('type' => 'text', 'not null' => TRUE),
       'timestamp' => array('type' => 'int', 'not null' => TRUE),
+      'fails'    => array(
+        'description' => 'Number of failed attempt(s) to push the request to the service.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0
+      ),
     ),
     'primary key' => array('mail', 'lid'),
     'indexes' => array(
@@ -160,6 +166,7 @@ function _emf_schema_list_roles() {
   );
 }
 
+
 /**
  * Adding list roles table.
  */
@@ -220,4 +227,18 @@ function emf_update_6004() {
   }
 
   return $ret;
+}
+
+/**
+ * Adding {emf_request}.fails column.
+ */
+function emf_update_6005() {
+  $return = array();
+  db_add_field($return, 'emf_request', 'fails', array(
+    'description' => 'Number of failed attempt(s) to push the request to the service.',
+    'type' => 'int',
+    'not null' => TRUE,
+    'default' => 0
+  ));
+  return $return;
 }

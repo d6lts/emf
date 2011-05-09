@@ -175,9 +175,21 @@ function emf_sync_push_requests() {
       $success = emf_plugin_invoke('unsubscribe', array($request->mail, $request->lid));
     }
 
-    // if push succeeded, request can be deleted
-    if ($success) {
+    // if push succeeded or failed too many times, request can be deleted
+    if ($success || $request->fails > variable_get('emf_max_request_fails', 5)) {
       emf_db_delete_request($request->mail, $request->lid);
+      if ($request->fails > variable_get('emf_max_request_fail', 5)) {
+        watchdog('emf', t('%type request to %list cancelled for %mail after @count failed push attempts.', array(
+          '%type' => $request->type,
+          '%list' => $list->name_clean,
+          '%mail' => $request->mail,
+          '@count' => $request->fails,
+        )), WATCHDOG_ERROR);
+      }
+    }
+    else {
+      $request->fails += 1;
+      emf_db_save_request($request->type, $request->mail, $request->lid, $request->fields, $request->fails);
     }
 
     // count up
