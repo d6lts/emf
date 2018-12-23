@@ -97,7 +97,7 @@ class CMBase
 	* @param string $list The default ListId you're going to work with.
 	* @param string $method Determines request type. Values are either get, post, or soap.
 	*/
-	function CMBase( $api = null, $client = null, $campaign = null, $list = null, $method = 'get' )
+	function __construct( $api = null, $client = null, $campaign = null, $list = null, $method = 'get' )
 	{
 		$this->api = $api;
 		$this->client_id = $client;
@@ -577,7 +577,7 @@ class XMLArrayInstance
 	*        should start being converted to an array. Do not add an ending '/'.
 	*/
 	
-	function XMLArrayInstance( $root = null )
+	function __construct( $root = null )
 	{
 		if ( $root != null && $root != '/' )
 		{
@@ -958,9 +958,9 @@ class CampaignMonitor extends CMBase
 	* @param string $method Determines request type. Values are either get, post, or soap.
 	*/
 	
-	function CampaignMonitor( $api = null, $client = null, $campaign = null, $list = null, $method = 'get' )
+	function __construct( $api = null, $client = null, $campaign = null, $list = null, $method = 'get' )
 	{
-		CMBase::CMBase( $api, $client, $campaign, $list, $method );
+		parent::__construct( $api, $client, $campaign, $list, $method );
 	}
 	
 	/**
